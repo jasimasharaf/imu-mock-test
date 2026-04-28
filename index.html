@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IMU-CET Mock Test</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HOME -->
+  <section id="home">
+    <div class="home-header">
+      <h1>IMU-CET Mock Test</h1>
+      <p>Every mock test you take today is one step closer to your real success</p>
+    </div>
+    <div class="cards">
+      <div class="card beginner" onclick="startQuiz('beginner')">
+        <div class="card-icon">🟢</div>
+        <h2>Beginner</h2>
+        <p>Fundamental concepts &amp; basic questions</p>
+        <span class="card-meta">200 Questions · 180 Min</span>
+      </div>
+      <div class="card medium" onclick="startQuiz('medium')">
+        <div class="card-icon">🟡</div>
+        <h2>Medium</h2>
+        <p>Intermediate level problems</p>
+        <span class="card-meta">200 Questions · 180 Min</span>
+      </div>
+      <div class="card hard" onclick="startQuiz('hard')">
+        <div class="card-icon">🔴</div>
+        <h2>Hard</h2>
+        <p>Advanced &amp; competitive questions</p>
+        <span class="card-meta">200 Questions · 180 Min</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="hidden">
+    <div class="quiz-header">
+      <button class="btn-back-home" onclick="confirmGoHome()">🏠 Home</button>
+      <div class="quiz-title" id="quizTitle"></div>
+      <div class="timer" id="timer">180:00</div>
+    </div>
+    <div class="quiz-layout">
+      <!-- Question Panel -->
+      <div class="quiz-body">
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="question-meta" id="questionMeta"></div>
+        <div class="question-text" id="questionText"></div>
+        <div class="options" id="options"></div>
+        <div class="nav-buttons">
+          <button onclick="prevQuestion()" id="btnPrev">← Previous</button>
+          <button onclick="nextQuestion()" id="btnNext">Next →</button>
+          <button onclick="confirmSubmit()" id="btnSubmit" class="btn-submit" disabled>Submit Test</button>
+        </div>
+      </div>
+      <!-- Question Palette -->
+      <div class="palette-panel">
+        <div class="palette-legend">
+          <span class="leg leg-correct"></span> Correct
+          <span class="leg leg-wrong"></span> Wrong
+        </div>
+        <div class="palette-grid" id="paletteGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" class="hidden">
+    <div class="result-card">
+      <h2>Test Completed 🎉</h2>
+      <div class="result-grid">
+        <div class="stat"><span id="rTotal"></span><label>Total</label></div>
+        <div class="stat"><span id="rAttempted"></span><label>Attempted</label></div>
+        <div class="stat correct"><span id="rCorrect"></span><label>Correct</label></div>
+        <div class="stat wrong"><span id="rWrong"></span><label>Wrong</label></div>
+        <div class="stat score"><span id="rScore"></span><label>Score</label></div>
+        <div class="stat percent"><span id="rPercent"></span><label>Percentage</label></div>
+      </div>
+      <button onclick="goHome()" class="btn-home">Back to Home</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
