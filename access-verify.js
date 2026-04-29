@@ -8,9 +8,9 @@ const START_TIME = 1704067200000; // Fixed start time (Jan 1, 2024)
 
 function getCurrentUser() {
     const now = Date.now();
-    const oneMinute = 60000;
+    const twoMinutes = 120000;
     const elapsed = now - START_TIME;
-    const minutesPassed = Math.floor(elapsed / oneMinute);
+    const minutesPassed = Math.floor(elapsed / twoMinutes);
     const userIndex = (minutesPassed % 3) + 1;
     return userIndex;
 }
