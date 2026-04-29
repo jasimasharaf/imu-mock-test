@@ -15,3 +15,6 @@ Thumbs.db
 
 # Vercel
 .vercel
+
+# Private access codes (DO NOT COMMIT)
+ACCESS_CODES_PRIVATE.md

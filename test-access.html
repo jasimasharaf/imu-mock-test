@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Code System - Test Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f0f4f8;
+    }
+    .info-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h1 { color: #2d3748; margin-bottom: 20px; }
+    h2 { color: #4299e1; margin-top: 30px; }
+    .code { 
+      background: #ebf8ff; 
+      padding: 5px 10px; 
+      border-radius: 5px; 
+      font-weight: bold;
+      color: #2c5282;
+    }
+    .step {
+      background: #f7fafc;
+      padding: 15px;
+      margin: 10px 0;
+      border-left: 4px solid #4299e1;
+      border-radius: 5px;
+    }
+    .current-code {
+      background: #48bb78;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    button {
+      background: #4299e1;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+    button:hover { background: #3182ce; }
+    .reset-btn { background: #e53e3e; }
+    .reset-btn:hover { background: #c53030; }
+    .status {
+      background: #fef5e7;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      border-left: 4px solid #f59e0b;
+    }
+  </style>
+</head>
+<body>
+  <div class="info-box">
+    <h1>🔐 Access Code System - How It Works</h1>
+    
+    <div class="current-code" id="currentCodeDisplay">
+      Current Active Code: Loading...
+    </div>
+
+    <h2>📋 System Overview</h2>
+    <p>The access code system uses a <strong>rotating loop structure</strong> with 3 codes:</p>
+    <ul>
+      <li><span class="code">User 1: IMU9846</span></li>
+      <li><span class="code">User 2: IMU350</span></li>
+      <li><span class="code">User 3: IMU456</span></li>
+    </ul>
+
+    <h2>🔄 How the Loop Works</h2>
+    
+    <div class="step">
+      <strong>Step 1:</strong> User 1 enters <span class="code">IMU9846</span> → Gets access ✅<br>
+      → System automatically moves to User 2
+    </div>
+
+    <div class="step">
+      <strong>Step 2:</strong> User 2 enters <span class="code">IMU350</span> → Gets access ✅<br>
+      → System automatically moves to User 3
+    </div>
+
+    <div class="step">
+      <strong>Step 3:</strong> User 3 enters <span class="code">IMU456</span> → Gets access ✅<br>
+      → System loops back to User 1
+    </div>
+
+    <div class="step">
+      <strong>Step 4:</strong> User 4 enters <span class="code">IMU9846</span> → Gets access ✅<br>
+      → And the cycle continues...
+    </div>
+
+    <h2>🎯 Key Features</h2>
+    <ul>
+      <li>✅ Only ONE code works at a time</li>
+      <li>✅ After successful login, code automatically rotates to next</li>
+      <li>✅ Loops back to first code after last code is used</li>
+      <li>✅ Each user session is tracked separately</li>
+      <li>✅ Code rotation is shared across all users (stored in localStorage)</li>
+    </ul>
+
+    <div class="status" id="statusDisplay">
+      <strong>Status:</strong> Check the current active code above
+    </div>
+
+    <h2>🧪 Test Controls</h2>
+    <button onclick="checkCurrentCode()">🔍 Check Current Code</button>
+    <button onclick="simulateLogin()">✅ Simulate Login (Rotate Code)</button>
+    <button class="reset-btn" onclick="resetSystem()">🔄 Reset System</button>
+    <button onclick="goToMainApp()">🏠 Go to Main App</button>
+  </div>
+
+  <script>
+    const ACCESS_CODES = ["IMU9846", "IMU350", "IMU456"];
+    const STORAGE_KEY_INDEX = "imu_code_index";
+
+    function getCurrentCodeIndex() {
+      const index = localStorage.getItem(STORAGE_KEY_INDEX);
+      return index ? parseInt(index) : 0;
+    }
+
+    function setNextCodeIndex() {
+      const currentIndex = getCurrentCodeIndex();
+      const nextIndex = (currentIndex + 1) % ACCESS_CODES.length;
+      localStorage.setItem(STORAGE_KEY_INDEX, nextIndex);
+    }
+
+    function updateDisplay() {
+      const currentIndex = getCurrentCodeIndex();
+      const currentCode = ACCESS_CODES[currentIndex];
+      document.getElementById('currentCodeDisplay').textContent = 
+        `Current Active Code: ${currentCode}`;
+      
+      const nextIndex = (currentIndex + 1) % ACCESS_CODES.length;
+      const nextCode = ACCESS_CODES[nextIndex];
+      document.getElementById('statusDisplay').innerHTML = 
+        `<strong>Status:</strong> Current code is <span class="code">${currentCode}</span>. After login, next code will be <span class="code">${nextCode}</span>`;
+    }
+
+    function checkCurrentCode() {
+      updateDisplay();
+      alert(`Current active code is: ${ACCESS_CODES[getCurrentCodeIndex()]}`);
+    }
+
+    function simulateLogin() {
+      const currentCode = ACCESS_CODES[getCurrentCodeIndex()];
+      setNextCodeIndex();
+      const nextCode = ACCESS_CODES[getCurrentCodeIndex()];
+      updateDisplay();
+      alert(`✅ Login successful with ${currentCode}!\n\nNext user should use: ${nextCode}`);
+    }
+
+    function resetSystem() {
+      if (confirm('Reset the system to IMU111?')) {
+        localStorage.setItem(STORAGE_KEY_INDEX, 0);
+        localStorage.removeItem('imu_access_granted');
+        sessionStorage.clear();
+        updateDisplay();
+        alert('System reset! Current code is now IMU111');
+      }
+    }
+
+    function goToMainApp() {
+      window.location.href = 'index.html';
+    }
+
+    // Initialize display
+    updateDisplay();
+  </script>
+</body>
+</html>

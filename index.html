@@ -8,11 +8,24 @@
 </head>
 <body>
 
+  <!-- ACCESS CODE MODAL -->
+  <div id="accessModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-icon">🔐</div>
+      <h2>Enter Access Code</h2>
+      <p class="modal-subtitle">Please enter your access code to continue</p>
+      <input type="text" id="accessCodeInput" placeholder="Enter code" maxlength="15" autocomplete="off" />
+      <button id="submitCodeBtn" class="modal-btn">Submit</button>
+      <p id="errorMsg" class="error-msg hidden">Invalid Code. Please try again.</p>
+    </div>
+  </div>
+
   <!-- HOME -->
-  <section id="home">
+  <section id="home" class="blurred">
     <div class="home-header">
       <h1>IMU-CET Mock Test</h1>
       <p>Every mock test you take today is one step closer to your real success</p>
+      <button class="reset-access-btn" onclick="resetAccess()" title="Reset Access">🔄 Reset Access</button>
     </div>
     <div class="cards">
       <div class="card beginner" onclick="startQuiz('beginner')">

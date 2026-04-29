@@ -1,4 +1,121 @@
 // ── QUESTION BANK ──────────────────────────────────────────────
+
+// ── ACCESS CODE SYSTEM ──────────────────────────────────────────
+const ACCESS_CODES = ["IMU9846", "IMU350", "IMU456"];
+
+function initAccessControl() {
+  const isAuthorized = localStorage.getItem("isAuthorized");
+  
+  if (isAuthorized === "true") {
+    // User already authorized - show main content directly
+    hideModal();
+  } else {
+    // Show access code modal
+    showModal();
+  }
+}
+
+function showModal() {
+  document.getElementById("accessModal").classList.remove("hidden");
+  document.getElementById("home").classList.add("blurred");
+  // Focus on input field
+  setTimeout(() => {
+    document.getElementById("accessCodeInput").focus();
+  }, 300);
+}
+
+function hideModal() {
+  document.getElementById("accessModal").classList.add("hidden");
+  document.getElementById("home").classList.remove("blurred");
+}
+
+function verifyAccessCode(inputCode) {
+  if (ACCESS_CODES.includes(inputCode.toUpperCase())) {
+    // Grant permanent access
+    localStorage.setItem("isAuthorized", "true");
+    
+    // Show success message
+    showSuccessMessage();
+    
+    // Hide modal after short delay
+    setTimeout(() => {
+      hideModal();
+    }, 1500);
+    
+    return true;
+  }
+  return false;
+}
+
+function showSuccessMessage() {
+  const modal = document.querySelector(".modal-box");
+  const successMsg = document.createElement("div");
+  successMsg.className = "success-message";
+  successMsg.innerHTML = "✅ Access unlocked successfully!";
+  modal.appendChild(successMsg);
+  
+  // Remove success message after animation
+  setTimeout(() => {
+    successMsg.remove();
+  }, 2000);
+}
+
+function resetAccess() {
+  if (confirm("Are you sure you want to reset access? You will need to enter the code again.")) {
+    localStorage.removeItem("isAuthorized");
+    location.reload();
+  }
+}
+
+// Event listeners for access code
+document.addEventListener("DOMContentLoaded", () => {
+  initAccessControl();
+  
+  const submitBtn = document.getElementById("submitCodeBtn");
+  const codeInput = document.getElementById("accessCodeInput");
+  const errorMsg = document.getElementById("errorMsg");
+  
+  submitBtn.addEventListener("click", () => {
+    const code = codeInput.value.trim();
+    
+    if (code === "") {
+      errorMsg.textContent = "Please enter a code";
+      errorMsg.classList.remove("hidden");
+      return;
+    }
+    
+    if (verifyAccessCode(code)) {
+      errorMsg.classList.add("hidden");
+      codeInput.value = "";
+    } else {
+      errorMsg.textContent = "Invalid Code. Please try again.";
+      errorMsg.classList.remove("hidden");
+      codeInput.value = "";
+      codeInput.focus();
+      
+      // Shake animation
+      codeInput.classList.add("shake");
+      setTimeout(() => {
+        codeInput.classList.remove("shake");
+      }, 500);
+    }
+  });
+  
+  // Allow Enter key to submit
+  codeInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      submitBtn.click();
+    }
+  });
+  
+  // Clear error on input
+  codeInput.addEventListener("input", () => {
+    errorMsg.classList.add("hidden");
+  });
+});
+
+// ────────────────────────────────────────────────────────────────
+
 const beginnerQuestions = [
   // ── MATHS ──
   { q: "5+7=?", opts: ["10","11","12","13"], ans: 2 },
@@ -705,7 +822,29 @@ const hardQuestions = [
 
 ]; 
 
-const questionBank = { beginner: beginnerQuestions, medium: mediumQuestions, hard: hardQuestions };
+// Shuffle answer positions for hard questions
+function shuffleAnswerPositions(questions) {
+  return questions.map(q => {
+    const correctAnswer = q.opts[q.ans];
+    const shuffledOpts = [...q.opts];
+    
+    // Fisher-Yates shuffle
+    for (let i = shuffledOpts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
+    }
+    
+    // Find new index of correct answer
+    const newAns = shuffledOpts.indexOf(correctAnswer);
+    
+    return { q: q.q, opts: shuffledOpts, ans: newAns };
+  });
+}
+
+// Apply shuffling to hard questions
+const shuffledHardQuestions = shuffleAnswerPositions(hardQuestions);
+
+const questionBank = { beginner: beginnerQuestions, medium: mediumQuestions, hard: shuffledHardQuestions };
 
 // ── STATE ───────────────────────────────────────────────────────
 let questions = [], currentIndex = 0, userAnswers = [], timerInterval = null, timeLeft = 10800;
