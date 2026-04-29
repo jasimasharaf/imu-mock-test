@@ -8,15 +8,16 @@
 </head>
 <body>
 
-  <!-- ACCESS CODE MODAL -->
+  <!-- ACCESS MODAL -->
   <div id="accessModal" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-icon">🔐</div>
+    <div class="access-box">
+      <div class="icon">🔐</div>
       <h2>Enter Access Code</h2>
-      <p class="modal-subtitle">Please enter your access code to continue</p>
-      <input type="text" id="accessCodeInput" placeholder="Enter code" maxlength="15" autocomplete="off" />
-      <button id="submitCodeBtn" class="modal-btn">Submit</button>
-      <p id="errorMsg" class="error-msg hidden">Invalid Code. Please try again.</p>
+      <div class="user-badge" id="userNumber">USER 1</div>
+      <p>Please enter your access code to continue</p>
+      <input type="text" id="accessCode" placeholder="ENTER CODE" maxlength="7">
+      <button onclick="verifyCode()">Submit</button>
+      <div class="error" id="error"></div>
     </div>
   </div>
 
@@ -25,7 +26,6 @@
     <div class="home-header">
       <h1>IMU-CET Mock Test</h1>
       <p>Every mock test you take today is one step closer to your real success</p>
-      <button class="reset-access-btn" onclick="resetAccess()" title="Reset Access">🔄 Reset Access</button>
     </div>
     <div class="cards">
       <div class="card beginner" onclick="startQuiz('beginner')">
@@ -98,6 +98,7 @@
     </div>
   </section>
 
+  <script src="access-verify.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

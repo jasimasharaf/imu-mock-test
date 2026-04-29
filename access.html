@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMU-CET Access</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #2c3e50; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { background: #f5f5f5; padding: 50px 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-width: 450px; width: 100%; text-align: center; }
+        .icon { font-size: 80px; margin-bottom: 20px; }
+        h1 { color: #2c3e50; margin-bottom: 15px; font-size: 32px; font-weight: 600; }
+        p { color: #7f8c8d; margin-bottom: 40px; font-size: 16px; }
+        input { width: 100%; padding: 18px; border: 2px solid #ddd; border-radius: 12px; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; background: white; text-align: center; letter-spacing: 2px; color: #95a5a6; font-weight: 500; }
+        input:focus { outline: none; border-color: #3498db; color: #2c3e50; }
+        input::placeholder { color: #bdc3c7; letter-spacing: 1px; }
+        button { width: 100%; padding: 18px; background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); }
+        button:hover { background: linear-gradient(135deg, #2980b9 0%, #21618c 100%); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5); }
+        button:active { transform: translateY(0); }
+        .error { color: #e74c3c; text-align: center; margin-top: 15px; font-size: 14px; display: none; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🔐</div>
+        <h1>Enter Access Code</h1>
+        <p>Please enter your access code to continue</p>
+        <input type="text" id="accessCode" placeholder="ENTER CODE" maxlength="7">
+        <button onclick="verifyCode()">Submit</button>
+        <div class="error" id="error"></div>
+    </div>
+    <script src="access.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ A comprehensive mock test application for IMU-CET (Indian Maritime University Co
 
 ## Features
 
+- **Access Code System**: 100 unique one-time use access codes
 - **Three Difficulty Levels**: Beginner, Medium, and Hard
 - **200 Questions per Level**: Covering Physics, Chemistry, Mathematics, English, General Knowledge, and Aptitude
 - **Real-time Timer**: 180 minutes countdown timer
@@ -20,7 +21,9 @@ A comprehensive mock test application for IMU-CET (Indian Maritime University Co
 
 ## How to Use
 
-1. Select a difficulty level (Beginner, Medium, or Hard)
+1. Open `access.html` in your browser
+2. Enter one of the 100 unique access codes
+3. Select a difficulty level (Beginner, Medium, or Hard)
 2. Answer the questions by clicking on the options
 3. Navigate between questions using Previous/Next buttons or the question palette
 4. Submit the test when completed
